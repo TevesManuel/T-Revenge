@@ -67,6 +67,8 @@ class Window
             // fixtureDef.friction = 0.3f;
             // body->CreateFixture(&fixtureDef);
 
+
+
         }
         void clear(sf::Color bgcolor)
         {
