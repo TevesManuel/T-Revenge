@@ -69,6 +69,9 @@ class Window
 
 
 
+
+
+
         }
         void clear(sf::Color bgcolor)
         {
