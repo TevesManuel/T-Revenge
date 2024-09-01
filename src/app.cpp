@@ -8,10 +8,11 @@
 class Object
 {
     public:
-        void render(sf::RenderWindow * windowPtr);
+        virtual ~Object() {}
+        virtual void render(sf::RenderWindow * windowPtr) {}
 };
 
-class Player : Object
+class Player : public Object
 {
     private:
 
@@ -20,7 +21,7 @@ class Player : Object
         {
 
         }
-        void render(sf::RenderWindow * windowPtr)
+        void render(sf::RenderWindow * windowPtr) override
         {
             sf::RectangleShape rectangle(sf::Vector2f(120, 50)); // Tamaño del rectángulo
             rectangle.setFillColor(sf::Color::Green); // Color de relleno
@@ -35,11 +36,11 @@ class Window
         sf::Clock prevFrame;
         b2World * world;
         sf::RenderWindow * window;
-        std::vector<Object> objects;
+        std::vector<Object*> objects;
     public:
         Window()
         {
-            this->window = new sf::RenderWindow(sf::VideoMode(800, 600), "Box2D + SFML");
+            this->window = new sf::RenderWindow(sf::VideoMode(800, 600), "T-Revenge");
             this->window->setFramerateLimit(60);
 
             b2Vec2 gravity(0.0f, 0.0f);
@@ -66,12 +67,14 @@ class Window
             // fixtureDef.density = 1.0f;
             // fixtureDef.friction = 0.3f;
             // body->CreateFixture(&fixtureDef);
-
-
-
-
-
-
+        }
+        void addObject(Object * newObject)
+        {
+            this->objects.push_back(newObject);
+        }
+        void clearObjects()
+        {
+            this->objects.clear();
         }
         void clear(sf::Color bgcolor)
         {
@@ -100,11 +103,16 @@ class Window
 
                 for(int i = 0; i < objects.size(); i++)
                 {
-                    objects.at(i).render(this->window);
+                    objects.at(i)->render(this->window);
                 }
 
                 this->display();
            }
+        }
+        ~Window()
+        {
+            delete world;
+            delete window;
         }
 };
 
@@ -114,6 +122,7 @@ int main()
 {
     Window window;
     Player player;
+    window.addObject(&player);
     window.run();
     return 0;
 }
