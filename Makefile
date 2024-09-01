@@ -1,3 +1,20 @@
+INCLUDE_DIR = ./include/
+
+SOURCE =  ./src/app.cpp
+SOURCE += ./src/Window/Window.cpp
+SOURCE += ./src/Object/Object.cpp
+SOURCE += ./src/Player/PLayer.cpp
+
+TARGET =  ./target/app.exe
+
+LIBS =  -lsfml-graphics
+LIBS += -lsfml-window
+LIBS += -lsfml-system
+LIBS += -lm
+LIBS += -lbox2d
+
+CC = g++
+
 default:
-	g++ -o ./target/app.exe ./src/app.cpp -lsfml-graphics -lsfml-window -lsfml-system -lbox2d
+	$(CC) -o $(TARGET) -I$(INCLUDE_DIR) $(SOURCE) $(LIBS) 
 	./target/app.exe
