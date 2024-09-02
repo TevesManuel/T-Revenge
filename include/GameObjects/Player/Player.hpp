@@ -14,6 +14,8 @@ class Player : public Object
         sf::Sprite sprite;
     public:
         Player(Window * windowPtr);
+        void onCollisionEnter(Object * collisionedObject) override;
+        void onCollisionExit(Object * collisionedObject) override;
         void update(sf::RenderWindow * windowPtr) override;
         void render(sf::RenderWindow * windowPtr) override;
 };

@@ -7,6 +7,7 @@ Window::Window()
 
     b2Vec2 gravity(0.0f, 0.0f);
     this->world = new b2World(gravity);
+    this->world->SetContactListener(&this->contactListener);
 }
 
 void Window::addObject(Object * newObject)

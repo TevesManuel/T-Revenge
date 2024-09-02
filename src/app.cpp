@@ -6,7 +6,7 @@ int main()
 {
     Window window;
     Player player(&window);
-    Wall wall(WallTypes::NORMAL);
+    Wall wall(&window, WallTypes::NORMAL);
     window.addObject(&player);
     window.addObject(&wall);
     window.run();

@@ -27,7 +27,10 @@ Player::Player(Window * windowPtr)
     fixtureDef.shape = &dynamicBox;
     fixtureDef.density = 1.0f;
     fixtureDef.friction = 0.3f;
+    fixtureDef.userData.pointer = reinterpret_cast<uintptr_t>(this);//Save the class on the userData inside the fixture for colision detection
     body->CreateFixture(&fixtureDef);
+
+    printf("Player is created with ID %d\n", this->ID);
 }
 
 void Player::update(sf::RenderWindow * windowPtr)
@@ -74,4 +77,13 @@ void Player::render(sf::RenderWindow * windowPtr)
     TPG::drawRect(playerPos, this->sprite.getGlobalBounds().getSize(), windowPtr, sf::Color::Yellow);
 
     windowPtr->draw(circle);
+}
+
+void Player::onCollisionEnter(Object * collisionedObject)
+{
+    printf("Inicio de colision notificada de objeto(%d) desde Player\n", collisionedObject->ID);
+}
+void Player::onCollisionExit(Object * collisionedObject)
+{
+    printf("Fin de colision notificada de objeto(%d) desde Player\n", collisionedObject->ID);
 }

@@ -10,7 +10,11 @@ class Object
         unsigned int ID;
         Object ();
         virtual ~Object();
+        virtual void onCollisionEnter(Object * collisionedObject);
+        virtual void onCollisionExit(Object * collisionedObject);
         virtual void update(sf::RenderWindow * windowPtr);
         virtual void render(sf::RenderWindow * windowPtr);
+        void notificateCollisionEnter(Object * collisionedObject);
+        void notificateCollisionExit(Object * collisionedObject);
 };
 #endif

@@ -2,6 +2,13 @@
 
 namespace TPG
 {
+    void drawPoint(sf::Vector2f position, float size, sf::RenderWindow * windowPtr, sf::Color color)
+    {
+        sf::CircleShape point(size);
+        point.setFillColor(color);
+        point.setPosition(position);
+        windowPtr->draw(point);
+    }
     void drawLine(sf::Vector2f p0, sf::Vector2f p1, sf::RenderWindow * windowPtr, sf::Color color)
     {
         sf::VertexArray line(sf::Lines, 2);
