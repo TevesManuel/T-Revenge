@@ -5,6 +5,7 @@
 #include <box2d/box2d.h>
 #include <Object/Object.hpp>
 #include <vector>
+#include <ContactListener/ContactListener.hpp>
 
 class Window
 {
@@ -13,6 +14,7 @@ class Window
         b2World * world;
         sf::RenderWindow * window;
         std::vector<Object*> objects;
+        ContactListener contactListener;
     public:
         Window();
         void addObject(Object * newObject);

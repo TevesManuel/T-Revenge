@@ -27,16 +27,21 @@ Player::Player(Window * windowPtr)
     fixtureDef.shape = &dynamicBox;
     fixtureDef.density = 1.0f;
     fixtureDef.friction = 0.3f;
+    fixtureDef.userData.pointer = reinterpret_cast<uintptr_t>(this);//Save the class on the userData inside the fixture for colision detection
     body->CreateFixture(&fixtureDef);
+
+    printf("Player is created with ID %d\n", this->ID);
 }
+
 void Player::update(sf::RenderWindow * windowPtr)
 {
     b2Vec2 position = this->body->GetPosition();
+    
     sprite.setPosition(sf::Vector2f(position.x, position.y));
+
     b2Vec2 direction;
     direction.x = 0;
     direction.y = 0;
-
     if(sf::Keyboard::isKeyPressed(sf::Keyboard::A))
         direction.x = -1 * PLAYER_VELOCITY;
     if(sf::Keyboard::isKeyPressed(sf::Keyboard::D))
@@ -45,27 +50,17 @@ void Player::update(sf::RenderWindow * windowPtr)
         direction.y = -1 * PLAYER_VELOCITY;
     if(sf::Keyboard::isKeyPressed(sf::Keyboard::S))
         direction.y = 1  * PLAYER_VELOCITY;
-
     this->body->SetLinearVelocity(direction);
 
     double diffx = sf::Mouse::getPosition(*windowPtr).x - position.x;
     double diffy = sf::Mouse::getPosition(*windowPtr).y - position.y;
     float relation = diffx/diffy;
     float angle = atan2(diffy, diffx) - (b2_pi/2);
-
     body->SetTransform(position, angle);
     sprite.setRotation(angle * (180.0f / b2_pi));
 }
 
-void drawLine(sf::Vector2f p0, sf::Vector2f p1, sf::RenderWindow * windowPtr, sf::Color color)
-{
-    sf::VertexArray line(sf::Lines, 2);
-    line[0].position = p0;
-    line[0].color = color;
-    line[1].position = p1;
-    line[1].color = color;
-    windowPtr->draw(line);
-}
+#include <Primitive/PrimitiveGraphics.hpp>
 
 void Player::render(sf::RenderWindow * windowPtr)
 {
@@ -76,10 +71,19 @@ void Player::render(sf::RenderWindow * windowPtr)
     
     auto mousePos = sf::Mouse::getPosition(*windowPtr);
     auto playerPos = this->sprite.getPosition();
-    drawLine(playerPos, sf::Vector2f(mousePos.x, mousePos.y), windowPtr, sf::Color::Green);
-    drawLine(sf::Vector2f(playerPos.x, playerPos.y), sf::Vector2f(mousePos.x, playerPos.y), windowPtr, sf::Color::Red);
-    drawLine(sf::Vector2f(mousePos.x, playerPos.y), sf::Vector2f(mousePos.x, mousePos.y), windowPtr, sf::Color::Blue);
+    TPG::drawLine(playerPos, sf::Vector2f(mousePos.x, mousePos.y), windowPtr, sf::Color::Green);
+    TPG::drawLine(sf::Vector2f(playerPos.x, playerPos.y), sf::Vector2f(mousePos.x, playerPos.y), windowPtr, sf::Color::Red);
+    TPG::drawLine(sf::Vector2f(mousePos.x, playerPos.y), sf::Vector2f(mousePos.x, mousePos.y), windowPtr, sf::Color::Blue);
+    TPG::drawRect(playerPos, this->sprite.getGlobalBounds().getSize(), windowPtr, sf::Color::Yellow);
 
     windowPtr->draw(circle);
+}
 
+void Player::onCollisionEnter(Object * collisionedObject)
+{
+    printf("Inicio de colision notificada de objeto(%d) desde Player\n", collisionedObject->ID);
+}
+void Player::onCollisionExit(Object * collisionedObject)
+{
+    printf("Fin de colision notificada de objeto(%d) desde Player\n", collisionedObject->ID);
 }
