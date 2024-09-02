@@ -2,20 +2,11 @@
 
 Window::Window()
 {
-    this->window = new sf::RenderWindow(sf::VideoMode(800, 600), "T-Revenge");
+    this->window = new sf::RenderWindow(sf::VideoMode(800, 600), "T-Revenge", 0);
     this->window->setFramerateLimit(60);
 
     b2Vec2 gravity(0.0f, 0.0f);
     this->world = new b2World(gravity);
-    // b2BodyDef groundBodyDef;
-    // groundBodyDef.position.Set(0.0f, 0.0f);
-    // b2Body* groundBody = world.CreateBody(&groundBodyDef);
-
-    // b2EdgeShape groundBox;
-    // groundBox.m_vertex1.Set(0, 500);
-    // groundBox.m_vertex2.Set(800, 500);
-    // groundBody->CreateFixture(&groundBox, 0.0f);
-
 }
 
 void Window::addObject(Object * newObject)

@@ -4,6 +4,7 @@ SOURCE =  ./src/app.cpp
 SOURCE += ./src/Window/Window.cpp
 SOURCE += ./src/Object/Object.cpp
 SOURCE += ./src/Player/PLayer.cpp
+SOURCE += ./src/Primitive/PrimitiveGraphics.cpp
 
 TARGET =  ./target/app.exe
 
