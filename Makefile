@@ -1,9 +1,11 @@
 INCLUDE_DIR = ./include/
 
 SOURCE =  ./src/app.cpp
+SOURCE += ./src/ContactListener/ContactListener.cpp
 SOURCE += ./src/Window/Window.cpp
 SOURCE += ./src/Object/Object.cpp
-SOURCE += ./src/Player/PLayer.cpp
+SOURCE += ./src/GameObjects/Player/PLayer.cpp
+SOURCE += ./src/GameObjects/Wall/Wall.cpp
 SOURCE += ./src/Primitive/PrimitiveGraphics.cpp
 
 TARGET =  ./target/app.exe

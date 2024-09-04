@@ -2,10 +2,12 @@
 #define TEVES_OBJECT_HPP
 
 #include <SFML/Graphics.hpp>
+#include <string>
 
 class Object
 {
     public:
+        std::string label;
         bool enabled;
         unsigned int ID;
         Object ();

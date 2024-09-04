@@ -2,8 +2,8 @@
 
 #define PLAYER_VELOCITY 100.0f
 
-#define PLAYER_WIDTH 50
-#define PLAYER_HEIGHT 50
+sf::FloatRect dim;
+sf::Vector2f pos;
 
 Player::Player(Window * windowPtr)
 {
@@ -13,15 +13,22 @@ Player::Player(Window * windowPtr)
     }
     
     this->sprite.setTexture(texture);
+    printf("W: %f\n", sprite.getGlobalBounds().width);
     this->sprite.setScale(sf::Vector2f(0.2f, 0.2f));
+    printf("NW: %f\n", sprite.getGlobalBounds().width);
+
+    pos = sprite.getPosition();
+    dim = sprite.getGlobalBounds();
+    printf("%d %d\n", dim.width, dim.getSize().x);    
     this->sprite.setOrigin(sprite.getLocalBounds().width / 2.0f, sprite.getLocalBounds().height / 2.0f);
 
+    b2BodyDef bodyDef;
     bodyDef.type = b2_dynamicBody;
     bodyDef.position.Set(400.0f, 400.0f);
     this->body = windowPtr->addBodyDef(&bodyDef);
 
     b2PolygonShape dynamicBox;
-    dynamicBox.SetAsBox(PLAYER_WIDTH/2, PLAYER_HEIGHT/2);
+    dynamicBox.SetAsBox(dim.width, dim.height);
 
     b2FixtureDef fixtureDef;
     fixtureDef.shape = &dynamicBox;
@@ -56,7 +63,7 @@ void Player::update(sf::RenderWindow * windowPtr)
     double diffy = sf::Mouse::getPosition(*windowPtr).y - position.y;
     float relation = diffx/diffy;
     float angle = atan2(diffy, diffx) - (b2_pi/2);
-    body->SetTransform(position, angle);
+    // body->SetTransform(position, angle);
     sprite.setRotation(angle * (180.0f / b2_pi));
 }
 
@@ -74,16 +81,12 @@ void Player::render(sf::RenderWindow * windowPtr)
     TPG::drawLine(playerPos, sf::Vector2f(mousePos.x, mousePos.y), windowPtr, sf::Color::Green);
     TPG::drawLine(sf::Vector2f(playerPos.x, playerPos.y), sf::Vector2f(mousePos.x, playerPos.y), windowPtr, sf::Color::Red);
     TPG::drawLine(sf::Vector2f(mousePos.x, playerPos.y), sf::Vector2f(mousePos.x, mousePos.y), windowPtr, sf::Color::Blue);
-    TPG::drawRect(playerPos, this->sprite.getGlobalBounds().getSize(), windowPtr, sf::Color::Yellow);
+    TPG::drawRect(pos, dim.getSize(), windowPtr, sf::Color::Yellow);
+    TPG::drawPoint(playerPos, 5, windowPtr, sf::Color::Red);
 
     windowPtr->draw(circle);
 }
 
 void Player::onCollisionEnter(Object * collisionedObject)
 {
-    printf("Inicio de colision notificada de objeto(%d) desde Player\n", collisionedObject->ID);
-}
-void Player::onCollisionExit(Object * collisionedObject)
-{
-    printf("Fin de colision notificada de objeto(%d) desde Player\n", collisionedObject->ID);
 }
