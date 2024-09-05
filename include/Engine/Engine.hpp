@@ -2,12 +2,13 @@
 #define TEVES_WINDOW_HPP
 
 #include <SFML/Graphics.hpp>
+#include <SFML/Graphics/Drawable.hpp>
 #include <box2d/box2d.h>
-#include <Object/Object.hpp>
+#include <Engine/Object/Object.hpp>
 #include <vector>
-#include <ContactListener/ContactListener.hpp>
+#include <Engine/ContactListener/ContactListener.hpp>
 
-class Window
+class Engine
 {
     private:
         sf::Clock prevFrame;
@@ -16,14 +17,13 @@ class Window
         std::vector<Object*> objects;
         ContactListener contactListener;
     public:
-        Window();
+        Engine();
         void addObject(Object * newObject);
         void clearObjects();
-        void clear(sf::Color bgcolor);
-        void display();
+        sf::Vector2i getMousePosition();
         void run();
         b2Body * addBodyDef(b2BodyDef * bodyDefPtr);
-        ~Window();
+        ~Engine();
 };
 
 #endif

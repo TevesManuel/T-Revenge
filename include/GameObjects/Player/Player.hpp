@@ -1,8 +1,10 @@
 #include <SFML/Graphics.hpp>
-#include <Object/Object.hpp>
+#include <Engine/Object/Object.hpp>
+#include <GameObjects/Player/Bullet/Bullet.hpp>
 #include <box2d/box2d.h>
-#include <Window/Window.hpp>
+#include <Engine/Engine.hpp>
 
+#include <vector>
 #include <iostream>
 
 class Player : public Object
@@ -12,8 +14,8 @@ class Player : public Object
         sf::Texture texture;
         sf::Sprite sprite;
     public:
-        Player(Window * windowPtr);
+        Player(Engine * enginePtr);
         void onCollisionEnter(Object * collisionedObject) override;
-        void update(sf::RenderWindow * windowPtr) override;
-        void render(sf::RenderWindow * windowPtr) override;
+        void update(EngineWindow * windowPtr) override;
+        void render(EngineWindow * windowPtr) override;
 };

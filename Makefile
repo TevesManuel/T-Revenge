@@ -1,12 +1,13 @@
 INCLUDE_DIR = ./include/
 
-SOURCE =  ./src/app.cpp
-SOURCE += ./src/ContactListener/ContactListener.cpp
-SOURCE += ./src/Window/Window.cpp
-SOURCE += ./src/Object/Object.cpp
+CORE_SOURCE =  ./src/app.cpp
+CORE_SOURCE += ./src/Engine/ContactListener/ContactListener.cpp
+CORE_SOURCE += ./src/Engine/Object/Object.cpp
+CORE_SOURCE += ./src/Engine/Engine.cpp
+CORE_SOURCE += ./src/Engine/Primitive/PrimitiveGraphics.cpp
+SOURCE =  $(CORE_SOURCE)
 SOURCE += ./src/GameObjects/Player/PLayer.cpp
 SOURCE += ./src/GameObjects/Wall/Wall.cpp
-SOURCE += ./src/Primitive/PrimitiveGraphics.cpp
 
 TARGET =  ./target/app.exe
 
@@ -21,3 +22,5 @@ CC = g++
 default:
 	$(CC) -o $(TARGET) -I$(INCLUDE_DIR) $(SOURCE) $(LIBS) 
 	./target/app.exe
+core:
+	$(CC) -o $(TARGET) -I$(INCLUDE_DIR) $(CORE_SOURCE) $(LIBS)

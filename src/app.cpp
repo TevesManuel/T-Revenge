@@ -1,17 +1,14 @@
-#include <Window/Window.hpp>
+#include <Engine/Engine.hpp>
 #include <GameObjects/Player/Player.hpp>
 #include <GameObjects/Wall/Wall.hpp>
-#include <GameObjects/Player/Bullet/Bullet.hpp>
 
 int main()
 {
-    Window window;
-    Player player(&window);
-    Wall wall(&window, WallTypes::NORMAL);
-    Bullet bullet;
-    window.addObject(&player);
-    window.addObject(&wall);
-    window.addObject(&bullet);
-    window.run();
+    Engine engine;
+    Player player(&engine);
+    Wall wall(&engine, WallTypes::NORMAL);
+    engine.addObject(&player);
+    engine.addObject(&wall);
+    engine.run();
     return 0;
 }

@@ -1,6 +1,6 @@
 #include <GameObjects/Wall/Wall.hpp>
 
-Wall::Wall(Window * windowPtr, WallTypes::types wallType)
+Wall::Wall(Engine * windowPtr, WallTypes::types wallType)
 {
     //Load the texture
     this->label = "WALL";
@@ -24,7 +24,7 @@ Wall::Wall(Window * windowPtr, WallTypes::types wallType)
     // this->sprite.setTextureRect(sf::IntRect(0, 0, 2512, 2512));
     this->sprite.setScale(sizeBox/this->sprite.getGlobalBounds().width,
                             sizeBox/this->sprite.getGlobalBounds().height);
-    std::cout << "x: " << this->sprite.getGlobalBounds().width << " y: " << this->sprite.getLocalBounds().height << std::endl; 
+    // std::cout << "x: " << this->sprite.getGlobalBounds().width << " y: " << this->sprite.getLocalBounds().height << std::endl; 
     this->sprite.setOrigin(sf::Vector2f(
         250,
         250
@@ -52,7 +52,7 @@ Wall::Wall(Window * windowPtr, WallTypes::types wallType)
     // Asociate the form to the body
     wallBody->CreateFixture(&fixtureDef);
 
-    printf("Wall is created with ID %d\n", this->ID);
+    // printf("Wall is created with ID %d\n", this->ID);
 }
 
 void Wall::render(sf::RenderWindow * windowPtr)

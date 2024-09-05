@@ -1,7 +1,9 @@
 #ifndef TEVES_WALL_HPP
 #define TEVES_WALL_HPP
 
-#include <Object/Object.hpp>
+#include <Engine/Engine.hpp>
+#include <Engine/Primitive/PrimitiveGraphics.hpp>
+#include <Engine/Object/Object.hpp>
 #include <SFML/Graphics.hpp>
 #include <stdio.h>
 
@@ -14,8 +16,6 @@ namespace WallTypes
 }
 
 #include <iostream>
-#include <Window/Window.hpp>
-#include <Primitive/PrimitiveGraphics.hpp>
 
 class Wall : public Object
 {
@@ -24,7 +24,7 @@ class Wall : public Object
         sf::Sprite sprite;
         float sizeBox = 50;
     public:
-        Wall(Window * windowPtr, WallTypes::types wallType);
-        void render(sf::RenderWindow * windowPtr) override;
+        Wall(Engine * windowPtr, WallTypes::types wallType);
+        void render(EngineWindow * windowPtr) override;
 };
 #endif
