@@ -16,6 +16,6 @@ class Player : public Object
     public:
         Player(Engine * enginePtr);
         void onCollisionEnter(Object * collisionedObject) override;
-        void update(EngineWindow * windowPtr) override;
-        void render(EngineWindow * windowPtr) override;
+        void update(RenderWindow * windowPtr) override;
+        void render(RenderWindow * windowPtr) override;
 };

@@ -2,7 +2,7 @@
 #define TEVES_OBJECT_HPP
 
 #include <string>
-#include <Engine/Config.hpp>
+#include <Engine/RenderWindow/RenderWindow.hpp>
 
 class Object
 {
@@ -15,8 +15,8 @@ class Object
         virtual ~Object();
         virtual void onCollisionEnter(Object * collisionedObject);
         virtual void onCollisionExit(Object * collisionedObject);
-        virtual void update(EngineWindow * windowPtr);
-        virtual void render(EngineWindow * windowPtr);
+        virtual void update(RenderWindow * windowPtr);
+        virtual void render(RenderWindow * windowPtr);
         void destroy();
         void notificateCollisionEnter(Object * collisionedObject);
         void notificateCollisionExit(Object * collisionedObject);

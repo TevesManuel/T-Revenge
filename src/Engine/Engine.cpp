@@ -2,8 +2,8 @@
 
 Engine::Engine()
 {
-    this->window = new sf::RenderWindow(sf::VideoMode(800, 600), "T-Revenge", 0);
-    this->window->setFramerateLimit(60);
+    this->rendererWindow = new RenderWindow();
+    rendererWindow->setUserAddr(this);
 
     b2Vec2 gravity(0.0f, 0.0f);
     this->world = new b2World(gravity);
@@ -22,20 +22,17 @@ void Engine::clearObjects()
 
 void Engine::run()
 {
-    while (this->window->isOpen())
+    while (this->rendererWindow->isOpen())
     {
         sf::Event event;
-        while (this->window->pollEvent(event))
-        {
-            if (event.type == sf::Event::Closed)
-                this->window->close();
-        }
+
+        this->rendererWindow->pollEvents();
         
         //this->prevFrame.getElapsedTime().asSeconds() is deltaTime 
         this->world->Step(this->prevFrame.getElapsedTime().asSeconds(), 6, 2);
         this->prevFrame.restart();
         
-        this->window->clear(sf::Color::Black);
+        this->rendererWindow->clear();
 
         Object * object = NULL;
 
@@ -46,9 +43,8 @@ void Engine::run()
             //check destroy
             while(object->toDestroy)
             {
-                printf("%d\n", objects.size());
+                object->~Object();
                 objects.erase(objects.begin() + i);
-                printf("%d\n", objects.size());
                 if(i < objects.size())
                 {
                     object = objects.at(i);
@@ -56,6 +52,7 @@ void Engine::run()
                 else
                 {
                     object = nullptr;
+                    break;
                 }
             }
 
@@ -64,13 +61,13 @@ void Engine::run()
             {
                 if(object->enabled)
                 {
-                    object->update(this->window);
-                    object->render(this->window);
+                    object->update(this->rendererWindow);
+                    object->render(this->rendererWindow);
                 }
             }
         }
 
-        this->window->display();
+        this->rendererWindow->display();
     }
 }
 
@@ -79,13 +76,8 @@ b2Body * Engine::addBodyDef(b2BodyDef * bodyDefPtr)
     return this->world->CreateBody(bodyDefPtr);
 }
 
-sf::Vector2i Engine::getMousePosition()
-{
-    return sf::Mouse::getPosition(*this->window);
-}
-
 Engine::~Engine()
 {
-    delete world;
-    delete window;
+    delete this->world;
+    delete this->rendererWindow;
 }
