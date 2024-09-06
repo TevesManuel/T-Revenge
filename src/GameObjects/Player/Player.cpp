@@ -4,7 +4,7 @@
 #define PLAYER_VELOCITY 100.0f
 
 sf::FloatRect dim;
-sf::Vector2f pos;
+Vector2 pos;
 
 Player::Player(Engine * enginePtr)
 {
@@ -15,7 +15,7 @@ Player::Player(Engine * enginePtr)
     
     this->sprite.setTexture(texture);
     // printf("W: %f\n", sprite.getGlobalBounds().width);
-    this->sprite.setScale(sf::Vector2f(0.2f, 0.2f));
+    this->sprite.setScale(Vector2(0.2f, 0.2f));
     // printf("NW: %f\n", sprite.getGlobalBounds().width);
 
     pos = sprite.getPosition();
@@ -36,14 +36,13 @@ Player::Player(Engine * enginePtr)
     fixtureDef.friction = 0.3f;
     fixtureDef.userData.pointer = reinterpret_cast<uintptr_t>(this);//Save the class on the userData inside the fixture for colision detection
     body->CreateFixture(&fixtureDef);
-
 }
 
-void Player::update(sf::RenderWindow * windowPtr)
+void Player::update(RenderWindow * window)
 {
     b2Vec2 position = this->body->GetPosition();
     
-    sprite.setPosition(sf::Vector2f(position.x, position.y));
+    sprite.setPosition(Vector2(position.x, position.y));
 
     b2Vec2 direction;
     direction.x = 0;
@@ -58,17 +57,16 @@ void Player::update(sf::RenderWindow * windowPtr)
         direction.y = 1  * PLAYER_VELOCITY;
     this->body->SetLinearVelocity(direction);
 
-    auto mousePos = sf::Mouse::getPosition(*windowPtr);
-
-    double diffx = mousePos.x - position.x;
-    double diffy = mousePos.y - position.y;
+    double diffx = window->getMousePosition().x - position.x;
+    double diffy = window->getMousePosition().y - position.y;
     float relation = diffx/diffy;
     float angle = atan2(diffy, diffx);
     body->SetTransform(position, angle);
     sprite.setRotation(angle * (180.0f / b2_pi) - 90.0f);
     if(sf::Mouse::isButtonPressed(sf::Mouse::Button::Left))
     {
-        // bullets.push_back(new Bullet(this->sprite.getPosition(), this->body->GetAngle()));
+        Engine * engine = (Engine*)window->getUserAddr();
+        engine->addObject(new Bullet(this->sprite.getPosition(), this->body->GetAngle()));
     }
     if(sf::Keyboard::isKeyPressed(sf::Keyboard::F))
     {
@@ -76,22 +74,22 @@ void Player::update(sf::RenderWindow * windowPtr)
     }
 }
 
-void Player::render(sf::RenderWindow * windowPtr)
+void Player::render(RenderWindow * window)
 {
-    windowPtr->draw(this->sprite);
+    window->draw(this->sprite);
     sf::CircleShape circle(1.0f);
     circle.setFillColor(sf::Color::Green);
     circle.setPosition(this->sprite.getPosition());
     
-    auto mousePos = sf::Mouse::getPosition(*windowPtr);
+    auto mousePos = window->getMousePosition();
     auto playerPos = this->sprite.getPosition();
-    TPG::drawLine(playerPos, sf::Vector2f(mousePos.x, mousePos.y), windowPtr, sf::Color::Green);
-    TPG::drawLine(sf::Vector2f(playerPos.x, playerPos.y), sf::Vector2f(mousePos.x, playerPos.y), windowPtr, sf::Color::Red);
-    TPG::drawLine(sf::Vector2f(mousePos.x, playerPos.y), sf::Vector2f(mousePos.x, mousePos.y), windowPtr, sf::Color::Blue);
-    TPG::drawRect(pos, dim.getSize(), windowPtr, sf::Color::Yellow);
-    TPG::drawPoint(playerPos, 5, windowPtr, sf::Color::Red);
+    TPG::drawLine(playerPos, sf::Vector2f(mousePos.x, mousePos.y), window, sf::Color::Green);
+    TPG::drawLine(sf::Vector2f(playerPos.x, playerPos.y), sf::Vector2f(mousePos.x, playerPos.y), window, sf::Color::Red);
+    TPG::drawLine(sf::Vector2f(mousePos.x, playerPos.y), sf::Vector2f(mousePos.x, mousePos.y), window, sf::Color::Blue);
+    TPG::drawRect(pos, dim.getSize(), window, sf::Color::Yellow);
+    TPG::drawPoint(playerPos, 5, window, sf::Color::Red);
 
-    windowPtr->draw(circle);
+    window->draw(circle);
 }
 
 void Player::onCollisionEnter(Object * collisionedObject)

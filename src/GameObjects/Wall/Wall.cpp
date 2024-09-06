@@ -16,8 +16,7 @@ Wall::Wall(Engine * windowPtr, WallTypes::types wallType)
         printf("\n---------------------------------------------------------\n\n");
         exit(-1);
     }
-    float x = 100;
-    float y = 100;
+    Vector2 position(100, 100);
 
     this->texture.setRepeated(true);
     this->sprite.setTexture(texture);
@@ -29,11 +28,11 @@ Wall::Wall(Engine * windowPtr, WallTypes::types wallType)
         250,
         250
     ));
-    this->sprite.setPosition(sf::Vector2f(x, y));
+    this->sprite.setPosition(position);
     
     // Define the body
     b2BodyDef bodyDef;
-    bodyDef.position.Set(x, y);
+    bodyDef.position.Set(position.x, position.y);
     bodyDef.type = b2_staticBody; 
     
     // Create the body
@@ -55,8 +54,8 @@ Wall::Wall(Engine * windowPtr, WallTypes::types wallType)
     // printf("Wall is created with ID %d\n", this->ID);
 }
 
-void Wall::render(sf::RenderWindow * windowPtr)
+void Wall::render(RenderWindow * window)
 {
-    windowPtr->draw(this->sprite);
-    TPG::drawPoint(this->sprite.getPosition(), 1, windowPtr, sf::Color::Green);
+    window->draw(this->sprite);
+    TPG::drawPoint(this->sprite.getPosition(), 1, window, sf::Color::Green);
 }

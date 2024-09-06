@@ -25,6 +25,6 @@ class Wall : public Object
         float sizeBox = 50;
     public:
         Wall(Engine * windowPtr, WallTypes::types wallType);
-        void render(EngineWindow * windowPtr) override;
+        void render(RenderWindow * windowPtr) override;
 };
 #endif

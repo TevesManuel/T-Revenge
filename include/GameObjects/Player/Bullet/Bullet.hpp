@@ -22,7 +22,7 @@ class Bullet : public Object
             shape.setPosition(initialPosition);
             shape.setFillColor(sf::Color::Yellow);
         }
-        void update(EngineWindow * windowPtr) override
+        void update(RenderWindow * windowPtr) override
         {
             if(this->shape.getPosition().x > 800.0f)
             {
@@ -30,7 +30,7 @@ class Bullet : public Object
             }
             this->shape.setPosition(shape.getPosition() + direction);
         }
-        void render(EngineWindow * windowPtr) override
+        void render(RenderWindow * windowPtr) override
         {
             windowPtr->draw(shape);
         }

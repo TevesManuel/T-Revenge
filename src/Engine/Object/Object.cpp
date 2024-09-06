@@ -16,8 +16,8 @@ Object::~Object()
 }
 void Object::onCollisionEnter(Object * collisionedObject) {}
 void Object::onCollisionExit(Object * collisionedObject) {}
-void Object::update(sf::RenderWindow * windowPtr) {}
-void Object::render(sf::RenderWindow * windowPtr) {}
+void Object::update(RenderWindow * windowPtr) {}
+void Object::render(RenderWindow* windowPtr) {}
 void Object::destroy()
 {
     this->toDestroy = true;
